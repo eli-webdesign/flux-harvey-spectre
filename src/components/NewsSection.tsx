@@ -101,10 +101,15 @@ function NewsCard({ item, offset }: { item: NewsItem; offset?: boolean }) {
 
 export function NewsSection() {
   return (
-    <section className="w-full bg-[#f3f3f3] px-4 py-16 md:px-8 md:py-[120px]">
+    <section className="w-full overflow-hidden bg-[#f3f3f3] px-4 py-16 md:px-8 md:py-[120px]">
       <div className="mx-auto w-full max-w-[1920px]">
-        {/* DESKTOP — rotated wordmark left, 3 cards with dividers right */}
-        <div className="hidden w-full items-end gap-6 md:flex">
+        {/* DESKTOP — rotated wordmark on the left, 3 cards on the right with
+            dividers between them. The wordmark and the cards column hold their
+            Figma sizes (110px and 1020px); `justify-between` pushes them apart
+            so the wide gap between them is preserved at 1440 viewport. The
+            section's `overflow-hidden` clips any overflow at narrower
+            desktops instead of producing horizontal scroll. */}
+        <div className="hidden w-full items-end justify-between md:flex">
           {/* Rotated wordmark column */}
           <div className="flex h-[706px] w-[110px] shrink-0 items-center justify-center">
             <div className="-rotate-90">
@@ -117,10 +122,9 @@ export function NewsSection() {
             </div>
           </div>
 
-          {/* 3 cards with vertical dividers between them. Cards are flex-1
-              with `min-w-0` so they share the available space and shrink
-              cleanly on narrower desktops without overflowing. */}
-          <div className="flex min-w-0 flex-1 items-stretch gap-[31px]">
+          {/* Right column — 1020px wide (Figma). Cards inside are flex-1 +
+              min-w-0 so they share the space (≈319px each). */}
+          <div className="flex w-[1020px] shrink-0 items-stretch gap-[31px]">
             <NewsCard item={NEWS[0]} />
             <div
               aria-hidden
