@@ -78,7 +78,7 @@ function ReadMoreLink({ href }: { href: string }) {
 function NewsCard({ item, offset }: { item: NewsItem; offset?: boolean }) {
   return (
     <article
-      className={`flex w-full flex-col gap-4 md:w-[353px] md:shrink-0 ${
+      className={`flex w-full flex-col gap-4 md:min-w-0 md:flex-1 md:basis-[353px] ${
         offset ? "md:pt-[120px]" : ""
       }`}
     >
@@ -104,9 +104,9 @@ export function NewsSection() {
     <section className="w-full bg-[#f3f3f3] px-4 py-16 md:px-8 md:py-[120px]">
       <div className="mx-auto w-full max-w-[1920px]">
         {/* DESKTOP — rotated wordmark left, 3 cards with dividers right */}
-        <div className="hidden w-full items-end justify-between md:flex">
+        <div className="hidden w-full items-end gap-6 md:flex">
           {/* Rotated wordmark column */}
-          <div className="flex h-[706px] w-[110px] items-center justify-center">
+          <div className="flex h-[706px] w-[110px] shrink-0 items-center justify-center">
             <div className="-rotate-90">
               <p className="whitespace-nowrap font-light uppercase tracking-[-0.08em] leading-[0.86] text-black text-[clamp(48px,4.5vw,80px)]">
                 Keep up with my latest
@@ -117,8 +117,10 @@ export function NewsSection() {
             </div>
           </div>
 
-          {/* 3 cards with vertical dividers between them */}
-          <div className="flex w-[1020px] items-stretch gap-[31px]">
+          {/* 3 cards with vertical dividers between them. Cards are flex-1
+              with `min-w-0` so they share the available space and shrink
+              cleanly on narrower desktops without overflowing. */}
+          <div className="flex min-w-0 flex-1 items-stretch gap-[31px]">
             <NewsCard item={NEWS[0]} />
             <div
               aria-hidden
